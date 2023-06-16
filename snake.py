@@ -99,7 +99,7 @@ def main(human):
     path = []
     
     while True:
-        clock.tick(20)
+        clock.tick(15)
         if human:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -131,7 +131,8 @@ def main(human):
                     pygame.quit()
                     exit()
             if len(path) == 0:
-                path = autopath(snake, head_pos_x, head_pos_y)
+                print("run")
+                path = autopath(snake, head_pos_x, head_pos_y, tail, snake_length)
                 print(path)
             direction = path.pop()
             print(direction)
@@ -204,11 +205,11 @@ def main(human):
 
 if __name__ == "__main__":
     while True:
-        ans = input("Press 1 to play or 0 for computer to play for you: \n")
-        if ans == "1":
-            human = True
-        else:
-            human = False
-        # human = False
+        # ans = input("Press 1 to play or 0 for computer to play for you: \n")
+        # if ans == "1":
+        #     human = True
+        # else:
+        #     human = False
+        human = False
         main(human)
 
