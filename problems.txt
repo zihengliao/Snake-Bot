@@ -24,5 +24,16 @@ how do you know you're trapped
     2. the area you are surrounded by is less than the length of the snake
 
 
-how do you update the snake
-    use 2 queues
+
+very advanced problem:
+    - what if the apple spawns at a position where the snake cant reach it in the later iterations
+
+
+the algorithm is fucked now
+    - i think its when it is trapped
+    - also miscalculates the tail
+
+
+resolved:
+    - how do you update the snake
+        use 2 queues
