@@ -1,11 +1,11 @@
 import pygame
 import random
-from bot import autopath
+import bot
+import time as t
 
 
 
-
-WIDTH, HEIGHT = 500, 500
+WIDTH, HEIGHT = 520, 520
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 SIZE = 20
 
@@ -16,11 +16,11 @@ clock = pygame.time.Clock()
 
 
 def ran_pos_generator(snake):
-    random_x_position = random.randint(0, 24) 
-    random_y_position = random.randint(0, 24) 
+    random_x_position = random.randint(0, 25) 
+    random_y_position = random.randint(0, 25) 
     while snake[random_x_position][random_y_position] != 0:
-        random_x_position = random.randint(0, 24) 
-        random_y_position = random.randint(0, 24) 
+        random_x_position = random.randint(0, 25) 
+        random_y_position = random.randint(0, 25) 
     return random_x_position, random_y_position
 
 
@@ -78,7 +78,7 @@ def apple(snake):
 def main(human):
     # global snake
     # initialising snake head position
-    snake = [[0 for i in range(25)] for j in range(25)]     # this is the map
+    snake = [[0 for i in range(26)] for j in range(26)]     # this is the map
     head_pos_x, head_pos_y = ran_pos_generator(snake)
     snake[head_pos_x][head_pos_y] = [head_pos_x, head_pos_y, 0]  # this is the head of the snake. snake will be represented thru backtracking sort of 
 
@@ -90,7 +90,7 @@ def main(human):
     snake = apple(snake)
     pygame.display.update()
 
-
+    default_path = bot.default_map()
     ms_x = 0      # this is movement speed for x
     ms_y = 0      # this is movement speed for y
     time_delay = 80
@@ -132,22 +132,27 @@ def main(human):
                     exit()
             if len(path) == 0:
                 print("run")
-                path = autopath(snake, head_pos_x, head_pos_y, tail, snake_length)
+                path = bot.autopath(snake, head_pos_x, head_pos_y, tail, snake_length, default_path)
                 print(path)
             direction = path.pop()
+            # direction1 = path[-1]
             print(direction)
-            head_pos_x = direction[0]
-            head_pos_y = direction[1]
+            # head_pos_x = direction[0]
+            # head_pos_y = direction[1]
             if direction[2] == "up":
+            # if direction[0] - direction1[0] > 0:
                 ms_y = -1
                 ms_x = 0
             if direction[2] == "down":
+            # if direction1[0] - direction[0] > 0:
                 ms_y = 1
                 ms_x = 0
             if direction[2] == "left":
+            # if direction[1] - direction1[1] > 0:
                 ms_x = -1
                 ms_y = 0
             if direction[2] == "right":
+            # if direction1[1] - direction[1] > 0:
                 ms_x = 1
                 ms_y = 0
 
@@ -159,7 +164,7 @@ def main(human):
                 head_pos_x += ms_x
                 head_pos_y += ms_y
 
-                if head_pos_x < 0 or head_pos_y < 0 or head_pos_x > 24 or head_pos_y > 24:
+                if head_pos_x < 0 or head_pos_y < 0 or head_pos_x > 25 or head_pos_y > 25:
                     WIN.fill("black")
                     return
                 
@@ -183,8 +188,10 @@ def main(human):
             head_pos_x += ms_x
             head_pos_y += ms_y
 
-            if head_pos_x < 0 or head_pos_y < 0 or head_pos_x > 24 or head_pos_y > 24:
+            if head_pos_x < 0 or head_pos_y < 0 or head_pos_x > 25 or head_pos_y > 25:
                 WIN.fill("black")
+                print(head_pos_x, head_pos_y)
+                t.sleep(600)
                 return
             
             # checking if there is a collision or if it eats an apple
@@ -200,6 +207,7 @@ def main(human):
                 pygame.display.update()
             else:
                 WIN.fill("black")
+                t.sleep(600)
                 return
 
 
