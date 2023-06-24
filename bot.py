@@ -129,12 +129,30 @@ def autopath(snake, head_x, head_y, tail, snake_length, default_path):    # head
         # q1.task_done() 
 
 
+
+# backtrack   - put into array and inside the array also have the direction as well as the coordinate
+    backtrack_array = []
+    while snake_map[x][y][2] != 0:
+        backtrack_array.append(snake_map[x][y])
+        x1, y1 = x, y
+        x, y = snake_map[x][y][0], snake_map[x][y][1]
+        snake_map[x1][y1] = 1       # this represents that there is a snake there
+
+    # snake_map[apple_x][apple_y] = -1
+
+
+
+
+
+
+
     # this is for calculating the amount of steps it takes to hit itself
     next_pos_x, next_pos_y = default_path[apple_x][apple_y][0], default_path[apple_x][apple_y][1]
     missing_len = 0
-    for i in range(distance):   # possibly distance + 1
+    for i in range(snake_length + 1):   # possibly distance + 1
         # print(next_pos_x, next_pos_y, 1)
-        if snake[next_pos_x][next_pos_y] != 0:
+        # if snake[next_pos_x][next_pos_y] != 0:      # im not taking into account the updated route in snake_map
+        if snake_map[next_pos_x][next_pos_y] == 1:
             missing_len = length - i - 1       #check this
             break
         next_pos_x, next_pos_y = default_path[next_pos_x][next_pos_y][0], default_path[next_pos_x][next_pos_y][1]
@@ -155,25 +173,9 @@ def autopath(snake, head_x, head_y, tail, snake_length, default_path):    # head
         # default_path_backtrack.append
         return default_path_backtrack
 
+    else:
 
-
-
-
-
-
-
-
-
-
-    # backtrack   - put into array and inside the array also have the direction as well as the coordinate
-    backtrack_array = []
-    while snake_map[x][y][2] != 0:
-        backtrack_array.append(snake_map[x][y])
-        x, y = snake_map[x][y][0], snake_map[x][y][1]
-
-
-    snake_map[apple_x][apple_y] = -1
-    return backtrack_array
+        return backtrack_array
 
 
 
@@ -228,6 +230,3 @@ def default_map():
 
 if __name__ == "__main__":
     print(default_map())
-    # x = [1, 3]
-    # y, z = x
-    # print(y, z)
