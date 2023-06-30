@@ -26,7 +26,7 @@ def autopath(snake, head_x, head_y, tail, snake_length, default_path):    # head
         # if q.empty() or q1.empty():
         if len(q) == 0 or len(q1) == 0:
             # length > 1 is so it can backtrack
-            if length > 1 and distance > 1:    # capacity > is so it doesn't run for the first 2 iteration because it will eat its tail
+            if length > 1 and distance > 2:    # capacity > is so it doesn't run for the first 2 iteration because it will eat its tail
                 prev_x = tail_copy[0]
                 prev_y = tail_copy[1]
                 tail_copy = snake_map[prev_x][prev_y]
@@ -144,24 +144,28 @@ def autopath(snake, head_x, head_y, tail, snake_length, default_path):    # head
         for j in range(len(snake_map[0])):
             if snake_map[i][j] != 1:
                 snake_map[i][j] = 0
-            # try:
-            #     if snake_map[i][j][2] != 0:
-            #         snake_map[i][j] = 0
-            # except TypeError:
-            #     pass
+            try:
+                if snake_map[i][j][2] != 0:
+                    snake_map[i][j] = 0
+            except TypeError:
+                pass
 
-    tail_bool = find_tail(tail_copy, apple_x, apple_y, snake_map)
+    tail_bool = find_tail(tail_copy, apple_x, apple_y, snake_map, snake_length +1)
 
     if len(tail_bool) > 0:
         return backtrack_array      # if u can reach the tail from the position of the apple
     else:
-        return find_tail(tail, head_x, head_y, snake)   # this logic is wrong
+        backtrack_array = find_tail(tail, head_x, head_y, snake, snake_length +1)   # this logic is wrong
+        return backtrack_array      # goal of this is for the head to go to the tail
 
 
 
 # need to have the snake_map where everything is 0 except the snake itself
-def find_tail(tail, head_x, head_y, snake):
+def find_tail(tail, head_x, head_y, snake, length):
 
+    if length <= 1:
+        return [1]      # this is to bypass the if len(tail_bool) > 0 statement
+    
     snake_map = copy.deepcopy(snake)
 
     q = []
@@ -185,18 +189,18 @@ def find_tail(tail, head_x, head_y, snake):
                 snake_direction = "left"
                 snake_map[x - 1][y] = [x, y, snake_direction]     # 1 means its a backtrack value
             
-            elif snake_map[x -1][y] == 1 or snake_map[x -1][y][2] == 0:   # if it is a snake
+            elif snake_map[x -1][y] == 1:   # if it is a snake
                 pass    # don't do anything because we can't go there
 
-            # try:
-            elif snake_map[x -1][y][0] == tail_x and snake_map[x -1][y][1] == tail_y:     # if it is the tail
-                snake_direction = "left"
-                snake_map[x - 1][y] = [x, y, snake_direction]
-                x -= 1      # to set current co ordinates to that of tail
-                found = True
-                break
-            # except TypeError:
-            #     pass
+            try:
+                if snake_map[x -1][y][0] == tail_x and snake_map[x -1][y][1] == tail_y:     # if it is the tail
+                    snake_direction = "left"
+                    snake_map[x - 1][y] = [x, y, snake_direction]
+                    x -= 1      # to set current co ordinates to that of tail
+                    found = True
+                    break
+            except TypeError:
+                pass
 
         # check right
         if x + 1 < 26:      
@@ -205,18 +209,18 @@ def find_tail(tail, head_x, head_y, snake):
                 snake_direction = "right"
                 snake_map[x + 1][y] = [x, y, snake_direction]     # 1 means its a backtrack value
             
-            elif snake_map[x +1][y] == 1 or snake_map[x +1][y][2] == 0:   # if it is a snake
+            elif snake_map[x +1][y] == 1:   # if it is a snake
                 pass    # don't do anything because we can't go there
 
-            # try:
-            elif snake_map[x +1][y][0] == tail_x and snake_map[x +1][y][1] == tail_y:     # if it is the tail
-                snake_direction = "right"
-                snake_map[x + 1][y] = [x, y, snake_direction]
-                x += 1      # to set current co ordinates to that of tail
-                found = True
-                break  
-            # except TypeError:
-            #     pass
+            try:
+                if snake_map[x +1][y][0] == tail_x and snake_map[x +1][y][1] == tail_y:     # if it is the tail
+                    snake_direction = "right"
+                    snake_map[x + 1][y] = [x, y, snake_direction]
+                    x += 1      # to set current co ordinates to that of tail
+                    found = True
+                    break  
+            except TypeError:
+                pass
 
         # check up
         if y - 1 >= 0:     
@@ -225,18 +229,18 @@ def find_tail(tail, head_x, head_y, snake):
                 snake_direction = "up"
                 snake_map[x][y - 1] = [x, y, snake_direction]   
            
-            elif snake_map[x][y -1] == 1 or snake_map[x][y -1][2] == 0:  
+            elif snake_map[x][y -1] == 1:  
                 pass 
 
-            # try:
-            elif snake_map[x][y -1][0] == tail_x and snake_map[x][y-1][1] == tail_y:    
-                snake_direction = "up"
-                snake_map[x][y - 1] = [x, y, snake_direction]
-                y -= 1
-                found = True
-                break  
-            # except TypeError:
-            #     pass
+            try:
+                if snake_map[x][y -1][0] == tail_x and snake_map[x][y-1][1] == tail_y:    
+                    snake_direction = "up"
+                    snake_map[x][y - 1] = [x, y, snake_direction]
+                    y -= 1
+                    found = True
+                    break  
+            except TypeError:
+                pass
 
 
         # check down
@@ -246,29 +250,29 @@ def find_tail(tail, head_x, head_y, snake):
                 snake_direction = "down"
                 snake_map[x][y + 1] = [x, y, snake_direction]    
             
-            elif snake_map[x][y +1] == 1 or snake_map[x][y +1][2] == 0:  
+            elif snake_map[x][y +1] == 1:  
                 pass  
 
-            # try:
-            elif snake_map[x][y +1] == -1:   
-                snake_direction = "down"
-                snake_map[x][y + 1] = [x, y, snake_direction]
-                y += 1
-                found = True
-                break
-            # except TypeError:
-            #     pass
+            try:
+                if snake_map[x][y +1][0] == tail_x and snake_map[x][y+1][1] == tail_y:   
+                    snake_direction = "down"
+                    snake_map[x][y + 1] = [x, y, snake_direction]
+                    y += 1
+                    found = True
+                    break
+            except TypeError:
+                pass
 
     backtrack_array = []
-    # if found:
-    try:
-        while snake_map[x][y][2] != 0:
-            backtrack_array.append(snake_map[x][y])
-            x1, y1 = x, y
-            x, y = snake_map[x][y][0], snake_map[x][y][1]
-            snake_map[x1][y1] = 1       # this represents that there is a snake there
-    except TypeError:
-        pass
+    if found:
+        try:
+            while snake_map[x][y][2] != 0:
+                backtrack_array.append(snake_map[x][y])
+                x1, y1 = x, y
+                x, y = snake_map[x][y][0], snake_map[x][y][1]
+                snake_map[x1][y1] = 1       # this represents that there is a snake there
+        except TypeError:
+            pass
     return backtrack_array
 
 # creating a hamiltonian cycle
@@ -316,12 +320,13 @@ def default_map():
 
 
 if __name__ == "__main__":
-    def x():
-        x = [1, 2, 3]
-        y(x)
-        print(x)
+    
+    for i in range(5):
+        if True:
+            print(i)
+            pass
 
-    def y(x):
-        x.append(4)
-
-    x()
+        try:
+            print(i[1])
+        except:
+            print("ran")
