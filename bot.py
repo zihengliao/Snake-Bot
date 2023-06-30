@@ -140,49 +140,136 @@ def autopath(snake, head_x, head_y, tail, snake_length, default_path):    # head
 
     # snake_map[apple_x][apple_y] = -1
 
+    for i in range(len(snake_map)):
+        for j in range(len(snake_map[0])):
+            if snake_map[i][j] != 1:
+                snake_map[i][j] = 0
+            # try:
+            #     if snake_map[i][j][2] != 0:
+            #         snake_map[i][j] = 0
+            # except TypeError:
+            #     pass
 
+    tail_bool = find_tail(tail_copy, apple_x, apple_y, snake_map)
 
-
-
-
-
-    # this is for calculating the amount of steps it takes to hit itself
-    next_pos_x, next_pos_y = default_path[apple_x][apple_y][0], default_path[apple_x][apple_y][1]
-    missing_len = 0
-    for i in range(snake_length + 1):   # possibly distance + 1
-        # print(next_pos_x, next_pos_y, 1)
-        # if snake[next_pos_x][next_pos_y] != 0:      # im not taking into account the updated route in snake_map
-        if snake_map[next_pos_x][next_pos_y] == 1:
-            missing_len = length - i - 1       #check this
-            break
-        next_pos_x, next_pos_y = default_path[next_pos_x][next_pos_y][0], default_path[next_pos_x][next_pos_y][1]
-
-
-
-    default_path_backtrack = []
-    next_pos_x, next_pos_y = head_x, head_y
-
-    for i in range(missing_len):
-        print(next_pos_x, next_pos_y, 1)
-        default_path_backtrack.append(default_path[next_pos_x][next_pos_y])
-        next_pos_x, next_pos_y = default_path[next_pos_x][next_pos_y][0], default_path[next_pos_x][next_pos_y][1]
-            
-
-    if len(default_path_backtrack) > 1:
-        default_path_backtrack.reverse()
-        # default_path_backtrack.append
-        return default_path_backtrack
-
+    if len(tail_bool) > 0:
+        return backtrack_array      # if u can reach the tail from the position of the apple
     else:
-
-        return backtrack_array
-
+        return find_tail(tail, head_x, head_y, snake)   # this logic is wrong
 
 
 
+# need to have the snake_map where everything is 0 except the snake itself
+def find_tail(tail, head_x, head_y, snake):
+
+    snake_map = copy.deepcopy(snake)
+
+    q = []
+
+    tail_x = tail[0]
+    tail_y = tail[1]
+
+    found = False
+
+    q.append((head_x, head_y))
+
+    # while not q.empty() or not q1.empty():
+    while len(q) != 0:
+        
+        x, y = q.pop(0)
+        
+        # check left
+        if x - 1 >= 0:      # if it is within the map
+            if snake_map[x - 1][y] == 0:        # if it is empty
+                q.append((x - 1,y))
+                snake_direction = "left"
+                snake_map[x - 1][y] = [x, y, snake_direction]     # 1 means its a backtrack value
+            
+            elif snake_map[x -1][y] == 1 or snake_map[x -1][y][2] == 0:   # if it is a snake
+                pass    # don't do anything because we can't go there
+
+            # try:
+            elif snake_map[x -1][y][0] == tail_x and snake_map[x -1][y][1] == tail_y:     # if it is the tail
+                snake_direction = "left"
+                snake_map[x - 1][y] = [x, y, snake_direction]
+                x -= 1      # to set current co ordinates to that of tail
+                found = True
+                break
+            # except TypeError:
+            #     pass
+
+        # check right
+        if x + 1 < 26:      
+            if snake_map[x + 1][y] == 0:        # if it is empty
+                q.append((x + 1,y))
+                snake_direction = "right"
+                snake_map[x + 1][y] = [x, y, snake_direction]     # 1 means its a backtrack value
+            
+            elif snake_map[x +1][y] == 1 or snake_map[x +1][y][2] == 0:   # if it is a snake
+                pass    # don't do anything because we can't go there
+
+            # try:
+            elif snake_map[x +1][y][0] == tail_x and snake_map[x +1][y][1] == tail_y:     # if it is the tail
+                snake_direction = "right"
+                snake_map[x + 1][y] = [x, y, snake_direction]
+                x += 1      # to set current co ordinates to that of tail
+                found = True
+                break  
+            # except TypeError:
+            #     pass
+
+        # check up
+        if y - 1 >= 0:     
+            if snake_map[x][y - 1] == 0:     
+                q.append((x,y - 1))
+                snake_direction = "up"
+                snake_map[x][y - 1] = [x, y, snake_direction]   
+           
+            elif snake_map[x][y -1] == 1 or snake_map[x][y -1][2] == 0:  
+                pass 
+
+            # try:
+            elif snake_map[x][y -1][0] == tail_x and snake_map[x][y-1][1] == tail_y:    
+                snake_direction = "up"
+                snake_map[x][y - 1] = [x, y, snake_direction]
+                y -= 1
+                found = True
+                break  
+            # except TypeError:
+            #     pass
 
 
+        # check down
+        if y + 1 < 26:      
+            if snake_map[x][y + 1] == 0:       
+                q.append((x,y + 1))
+                snake_direction = "down"
+                snake_map[x][y + 1] = [x, y, snake_direction]    
+            
+            elif snake_map[x][y +1] == 1 or snake_map[x][y +1][2] == 0:  
+                pass  
 
+            # try:
+            elif snake_map[x][y +1] == -1:   
+                snake_direction = "down"
+                snake_map[x][y + 1] = [x, y, snake_direction]
+                y += 1
+                found = True
+                break
+            # except TypeError:
+            #     pass
+
+    backtrack_array = []
+    # if found:
+    try:
+        while snake_map[x][y][2] != 0:
+            backtrack_array.append(snake_map[x][y])
+            x1, y1 = x, y
+            x, y = snake_map[x][y][0], snake_map[x][y][1]
+            snake_map[x1][y1] = 1       # this represents that there is a snake there
+    except TypeError:
+        pass
+    return backtrack_array
 
 # creating a hamiltonian cycle
 def default_map():
@@ -229,4 +316,12 @@ def default_map():
 
 
 if __name__ == "__main__":
-    print(default_map())
+    def x():
+        x = [1, 2, 3]
+        y(x)
+        print(x)
+
+    def y(x):
+        x.append(4)
+
+    x()
