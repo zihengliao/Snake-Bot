@@ -98,7 +98,7 @@ def main(human):
     path = []
     
     while True:
-        clock.tick(25)
+        clock.tick(15)
         if human:   # if a person is playing, direct the snake using the below controls
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

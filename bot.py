@@ -25,7 +25,7 @@ def autopath(snake, head_x, head_y, tail, snake_length):    # head_x and head_y 
 
         # if q.empty() or q1.empty():
         if len(q) == 0 or len(q1) == 0:
-            if length > 1 and distance > 1:    # distance > is so it doesn't run for the first 2 iteration because it will eat its tail
+            if length > 1 and distance > 2:    # distance > is so it doesn't run for the first 2 iteration because it will eat its tail
                 prev_x = tail_copy[0]   # tail's x coordinate
                 prev_y = tail_copy[1]   # tail's y coordinate
                 tail_copy = snake_map[prev_x][prev_y]
