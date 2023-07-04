@@ -2,8 +2,8 @@
 A bot that plays snake for you so you don't have to
 
 ## Examples of the bot
-### The bot running
-    ![going_for_apple_1](https://github.com/zihengliao/Snake-Bot/assets/119108854/0391f043-99aa-41b5-985b-11d88b601132)
+### The bot running  
+    ![going_for_apple_1](https://github.com/zihengliao/Snake-Bot/assets/119108854/0391f043-99aa-41b5-985b-11d88b601132)  
     ![going_for_apple_2](https://github.com/zihengliao/Snake-Bot/assets/119108854/99e030b5-7b0d-4c2d-9638-25dccf253f9a)
 
 ### The bot not going to the apple directly
