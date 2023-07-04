@@ -7,9 +7,9 @@ A bot that plays snake for you so you don't have to
     ![going_for_apple_2](https://github.com/zihengliao/Snake-Bot/assets/119108854/99e030b5-7b0d-4c2d-9638-25dccf253f9a)
 
 ### The bot not going to the apple directly
-  * If the snake feels like it will be trapped, it will avoid eating the apple straight away
+  * If the snake feels like it will be trapped, it will avoid eating the apple straight away  
     ![not_going_for_apple2](https://github.com/zihengliao/Snake-Bot/assets/119108854/ca866752-0c78-40ed-aa7a-ef5212c3134b)
-  * If it believes it will be trapped even slightly
+  * If it believes it will be trapped even slightly  
     ![not_going_for_apple1](https://github.com/zihengliao/Snake-Bot/assets/119108854/b38984c4-4bd4-4c84-a11a-49c8d72e85dc)
 
 
