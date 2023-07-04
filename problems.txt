@@ -1,37 +1,10 @@
-1. need to update the snake when moving inside the bot calculations - done
-2. need to calculate if it will be trapped once the apple has been eaten
-3. make user experience more nicer
+
+
+1. it eats the tail
 
 
 
 
-
-problems to fix at a later date:
-- apple spawning randomly. issue is that hypothetically, the snake covers
-    the entire map. the probability of the apple spawning at a non snake square is very low
-    so it messes up complexity
-- very advanced problem:
-    - what if the apple spawns at a position where the snake cant reach it in the later iterations
-
-
-
-
-
-
-
-lets start off with how to know if the snake will be trapped
-how do you know you're trapped
-    1. you are surrounded
-        - you check all the way left, right, up and down and u square the smallest distance to the direction of the edge
-    2. the area you are surrounded by is less than the length of the snake
-
-
-
-
-
-
-
-resolved:
-    - how do you update the snake
-        use 2 queues
-    - takes the most optimal path now that the snake position is updated along with the search (correcty calculates the tail)
+to do after:
+    - see if i can make my algorithm more efficient
+    - the way i spawn the apple is extremeley inefficient during later runs
