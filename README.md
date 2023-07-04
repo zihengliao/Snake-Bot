@@ -17,8 +17,8 @@ A bot that plays snake for you so you don't have to
 * Completes BFS to find the apple
 * Whilst completing BFS, use a memo array to keep track of the path taken. This also ensures the most efficient path is taken
 * Once apple is found, complete BFS again to find if it is possible to reach the tail of the snake (Want to maintain a hamiltonian cycle at all times)
-* If it isn't possible to maintain a hamiltonian cycle if the apple is eaten, the snake will attempt travel its own tail (completing the hamiltonian cycle)
-* Else, travel to the apple using the memo array created earlier 
+* If it isn't possible to maintain a hamiltonian cycle once the apple is eaten, the snake will attempt to travel its own tail (completing the hamiltonian cycle)
+* Else, if it is possible to maintain hamiltonian cycle, travel to the apple using the memo array created earlier 
 * Repeat the above steps
 
 ## The bot not going to the apple directly
