@@ -76,7 +76,7 @@ def apple(snake):
 
 
 def main(human):
-    # global snake
+
     # initialising snake head position
     snake = [[0 for i in range(26)] for j in range(26)]     # this is the map
     head_pos_x, head_pos_y = ran_pos_generator(snake)
@@ -90,7 +90,6 @@ def main(human):
     snake = apple(snake)
     pygame.display.update()
 
-    default_path = bot.default_map()
     ms_x = 0      # this is movement speed for x
     ms_y = 0      # this is movement speed for y
     time_delay = 80
@@ -99,8 +98,8 @@ def main(human):
     path = []
     
     while True:
-        clock.tick(15)
-        if human:
+        clock.tick(25)
+        if human:   # if a person is playing, direct the snake using the below controls
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -125,34 +124,32 @@ def main(human):
                         ms_x = 1
                         ms_y = 0
                         delayed = False
-        else:
+        # if a bot is playing, run the following 
+        else:       
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
             if len(path) == 0:
-                print("run")
-                path = bot.autopath(snake, head_pos_x, head_pos_y, tail, snake_length, default_path)
+                path = bot.autopath(snake, head_pos_x, head_pos_y, tail, snake_length)
                 print(path)
             direction = path.pop()
-            # direction1 = path[-1]
             print(direction)
-            # head_pos_x = direction[0]
-            # head_pos_y = direction[1]
+
+
             if direction[2] == "up":
-            # if direction[0] - direction1[0] > 0:
                 ms_y = -1
                 ms_x = 0
+
             if direction[2] == "down":
-            # if direction1[0] - direction[0] > 0:
                 ms_y = 1
                 ms_x = 0
+
             if direction[2] == "left":
-            # if direction[1] - direction1[1] > 0:
                 ms_x = -1
                 ms_y = 0
+
             if direction[2] == "right":
-            # if direction1[1] - direction[1] > 0:
                 ms_x = 1
                 ms_y = 0
 

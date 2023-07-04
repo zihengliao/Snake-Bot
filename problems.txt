@@ -1,3 +1,10 @@
 
 
-1. is not able to find tail at random spots
+1. it eats the tail
+
+
+
+
+to do after:
+    - see if i can make my algorithm more efficient
+    - the way i spawn the apple is extremeley inefficient during later runs
